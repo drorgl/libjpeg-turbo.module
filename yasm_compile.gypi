@@ -28,6 +28,8 @@
   'variables': {
     'yasm_flags': [],
 
+	'use_system_yasm' : '1',
+	
     'conditions': [
       [ 'use_system_yasm==0', {
         'yasm_path': 'vsyasm<(EXECUTABLE_SUFFIX)',
@@ -100,23 +102,29 @@
     }],
   ],  # conditions
 
-  'rules': [
-    {
-      'rule_name': 'assemble',
-      'extension': 'asm',
-      'inputs': [],
-      'outputs': [
-        '<(yasm_output_path)/<(RULE_INPUT_ROOT).<(asm_obj_extension)',
-      ],
-      'action': [
-        '<(yasm_path)',
-        '<@(yasm_flags)',
-        '-o', '<(yasm_output_path)/<(RULE_INPUT_ROOT).<(asm_obj_extension)',
-        '<(RULE_INPUT_PATH)',
-      ],
-	  'msvs_cygwin_shell': 0,
-      'process_outputs_as_sources': 1,
-      'message': 'Compile assembly <(RULE_INPUT_PATH).',
-    },
-  ],  # rules
+  'conditions':[
+	['target_arch in "ia32 x64"', {
+		'rules': [
+			{
+			  'rule_name': 'assemble',
+			  'extension': 'asm',
+			  'inputs': [],
+			  'outputs': [
+				'<(yasm_output_path)/<(RULE_INPUT_ROOT).<(asm_obj_extension)',
+			  ],
+			  'action': [
+				'<(yasm_path)',
+				'<@(yasm_flags)',
+				'-o', '<(yasm_output_path)/<(RULE_INPUT_ROOT).<(asm_obj_extension)',
+				'<(RULE_INPUT_PATH)',
+			  ],
+			  'msvs_cygwin_shell': 0,
+			  'process_outputs_as_sources': 1,
+			  'message': 'Compile assembly <(RULE_INPUT_PATH).',
+			},
+		],  # rules
+	}],
+  ],
+  
+  
 }

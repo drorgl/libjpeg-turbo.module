@@ -13,6 +13,7 @@
 		'library' : 'shared_library',
 		
 		'yasm_output_path': '<(INTERMEDIATE_DIR)',
+		'yasm_flags':[],
 	},
 	
 	'targets': [
@@ -25,6 +26,7 @@
 			],
 			'direct_dependent_settings': {
 				'include_dirs': [
+					'config',
 					'libjpeg-turbo_src',
 				],
 			},
@@ -32,7 +34,9 @@
 				'WITH_SIMD', 'MOTION_JPEG_SUPPORTED',
 			],
 			
-			
+			'includes':[
+					'yasm_compile.gypi',
+				],
 			
 			
 		'sources': [
@@ -147,11 +151,7 @@
 			#'libjpeg-turbo_src/wrrle.c',
 			
 		],
-		'direct_dependent_settings': {
-			'include_dirs': [
-				'libjpeg-turbo_src',
-			],
-		},
+		
 		'msvs_disabled_warnings': [4018, 4101],
 		# VS2010 does not correctly incrementally link obj files generated
 		# from asm files. This flag disables UseLibraryDependencyInputs to
@@ -180,9 +180,11 @@
 				],
 			}],
 			['target_arch in "ia32 x64"',{
-				'includes':[
-					'yasm_compile.gypi',
-				],
+				'variables':{
+					#'yasm_flags':'<(yasm_flags)'
+					'yasm_flags':[],
+				},
+				
 			}],
 		
 			[ 'OS!="win"', {'product_name': 'jpeg_turbo'}],
