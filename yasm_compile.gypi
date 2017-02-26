@@ -28,7 +28,7 @@
   'variables': {
     'yasm_flags': [],
 
-	'use_system_yasm' : '1',
+	#'use_system_yasm' : '1',
 	
     'conditions': [
       [ 'use_system_yasm==0', {
