@@ -2,3 +2,6 @@
 /build.vs2013
 /build.android
 /build.linux64
+/node_modules
+/.github-authentication-cache
+/build
